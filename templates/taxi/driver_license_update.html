@@ -3,7 +3,7 @@
 
 {% block content %}
   <h1>Update License Number</h1>
-  <h2>Driver: {{ driver }}</h2>
+  <h2>Driver: {{ object }}</h2>
   <form action="" method="post" novalidate>
     {% csrf_token %}
     {{ form|crispy }}
