@@ -114,12 +114,16 @@ class DriverLicenseUpdateView(LoginRequiredMixin, generic.UpdateView):
         )
 
 
-@login_required()
-def toggle_car_assignment(request: HttpRequest, pk: int) -> HttpResponse:
-    driver = request.user
-    car = Car.objects.get(id=pk)
-    if driver in car.drivers.all():
-        car.drivers.remove(driver)
-    else:
-        car.drivers.add(driver)
-    return HttpResponseRedirect(reverse("taxi:car-detail", kwargs={"pk": pk}))
+class ToggleCarAssignmentView(LoginRequiredMixin, generic.View):
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        driver = request.user
+        car = Car.objects.get_or_404(id=pk)
+        if driver in car.drivers.all():
+            car.drivers.remove(driver)
+        else:
+            car.drivers.add(driver)
+        return HttpResponseRedirect(
+            reverse(
+                "taxi:car-detail",
+                kwargs={"pk": pk})
+        )

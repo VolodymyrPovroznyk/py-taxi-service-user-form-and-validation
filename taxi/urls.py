@@ -16,7 +16,7 @@ from .views import (
     ManufacturerCreateView,
     ManufacturerUpdateView,
     ManufacturerDeleteView,
-    toggle_car_assignment,
+    ToggleCarAssignmentView,
 )
 
 urlpatterns = [
@@ -45,7 +45,7 @@ urlpatterns = [
     path("cars/<int:pk>/", CarDetailView.as_view(), name="car-detail"),
     path(
         "cars/<int:pk>/toggle-car-assignment/",
-        toggle_car_assignment,
+        ToggleCarAssignmentView.as_view(),
         name="toggle-car-assignment"
     ),
     path("cars/create/", CarCreateView.as_view(), name="car-create"),

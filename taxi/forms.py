@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from taxi.models import Driver, Car
+from taxi.validators import validate_license_number
 
 
 class DriverForm(UserCreationForm):
@@ -16,23 +17,7 @@ class DriverForm(UserCreationForm):
         )
 
     def clean_license_number(self):
-        license_number = self.cleaned_data["license_number"]
-        if len(license_number) != 8:
-            raise forms.ValidationError(
-                "The license number must consist only of 8 characters"
-            )
-        for character in license_number[:3]:
-            if not character.isalpha() or character.islower():
-                raise forms.ValidationError(
-                    "First 3 characters must be uppercase letters"
-                )
-        for character in license_number[3:]:
-            if not character.isdigit():
-                raise forms.ValidationError(
-                    "Last 5 characters must be digits"
-                )
-
-        return license_number
+        return validate_license_number(self.cleaned_data["license_number"])
 
 
 class DriverLicenseUpdateForm(forms.ModelForm):
@@ -41,23 +26,7 @@ class DriverLicenseUpdateForm(forms.ModelForm):
         fields = ("license_number",)
 
     def clean_license_number(self):
-        license_number = self.cleaned_data["license_number"]
-        if len(license_number) != 8:
-            raise forms.ValidationError(
-                "The license number must consist only of 8 characters"
-            )
-        for character in license_number[:3]:
-            if not character.isalpha() or character.islower():
-                raise forms.ValidationError(
-                    "First 3 characters must be uppercase letters"
-                )
-        for character in license_number[3:]:
-            if not character.isdigit():
-                raise forms.ValidationError(
-                    "Last 5 characters must be digits"
-                )
-
-        return license_number
+        return validate_license_number(self.cleaned_data["license_number"])
 
 
 class CarForm(forms.ModelForm):
